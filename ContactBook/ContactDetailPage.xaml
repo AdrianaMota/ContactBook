@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="ContactBook.ContactDetailPage">
     <StackLayout>
-        <TableView Intent="Form" x:Name="tableView">
+        <TableView Intent="Form" x:Name="tableView" >
             <TableRoot>
                 <TableSection Title="NAME">
                     <EntryCell x:Name="firstName" Label="First Name" Text="{Binding FirstName}"/>
@@ -12,10 +12,11 @@
                     <EntryCell x:Name="phone" Keyboard="Telephone" Label="Phone" Text="{Binding Phone}"/>
                 </TableSection>
                 <TableSection Title="OTHER">
-                    <SwitchCell Text="First Name" On="True"/>
+                    <SwitchCell Text="Blocked" On="False"/>
                 </TableSection>
             </TableRoot>
         </TableView>
         <Button Text="Save" HorizontalOptions="CenterAndExpand" Padding="0, 5" Clicked="ButtonClicked"/>
+
     </StackLayout>
 </ContentPage>

@@ -9,7 +9,7 @@ namespace ContactBook.Models
         public int ContactId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
         public string Email { get; set; }
         public string Name { get {
                 return String.Format("{0} {1}", FirstName, LastName);
