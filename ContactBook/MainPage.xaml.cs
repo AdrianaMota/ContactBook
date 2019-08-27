@@ -14,17 +14,19 @@ namespace ContactBook
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
+        public ListView ContactListView { get { return listView; } }
         private ContactDetailPage _contactDetails = new ContactDetailPage();
         public MainPage()
         {
             InitializeComponent();
             listView.ItemsSource = _contactDetails.GetContact();
         }
+
         void OnAddContact(object sender, System.EventArgs e)
         {
             Navigation.PushAsync(new ContactDetailPage(0));
         }
-            private void ItemIsClicked(object s, SelectedItemChangedEventArgs e)
+            private void ItemIsClicked(object s, SelectedItemChangedEventArgs e) 
         {
             if (e.SelectedItem == null)
                 return;
