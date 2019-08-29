@@ -8,7 +8,7 @@ namespace ContactBook
 {
     public partial class ContactDetailPage : ContentPage
     {
-        private MainPage ContactsPage = new MainPage();
+        private MainPage ContactsPage;
         private Contact createdContact = new Contact();
         public ContactDetailPage(int contId)
         {
@@ -31,7 +31,7 @@ namespace ContactBook
         {
             if (firstName.Text == null && lastName.Text == null)
             {
-                var alert = DisplayAlert("Error", "Please enter the name", "Ok");
+                DisplayAlert("Error", "Please enter the name", "Ok");
 
             } else
             {
@@ -46,7 +46,8 @@ namespace ContactBook
                     createdContact.ContactId = counter + 1;
 
 
-                    ContactsPage.ContactListView.ItemsSource = AddContact(createdContact);
+                    //ContactsPage.ContactListView.ItemsSource = AddContact(createdContact);
+                    ContactList.Add(AddContact(createdContact));
 
                     Navigation.PopAsync();
                 }
@@ -60,6 +61,7 @@ namespace ContactBook
 
             }
         }
+      //  public List<Contact> NewList { get {  } set; }
         public void UpdateContact()
         {
             var SelectedContat = ContactsPage.ContactListView.SelectedItem as Contact;
@@ -73,12 +75,11 @@ namespace ContactBook
 
         }
 
-        public List<Contact> AddContact(Contact newContact)
+        public Contact AddContact(Contact newContact)
         {
 
             newContact = new Contact { FirstName = firstName.Text, LastName = lastName.Text, Email = email.Text, Phone = phone.Text };
-            ContactList.Add(newContact);
-            return ContactList;
+            return newContact;
         }
 
         private List<Contact> ContactList = new List<Contact>

@@ -14,6 +14,8 @@ namespace ContactBook
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
+        public MainPage ContactsPage { get; set; }
+
         public ListView ContactListView { get { return listView; } }
         private ContactDetailPage _contactDetails = new ContactDetailPage();
         public MainPage()
