@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -14,30 +15,57 @@ namespace ContactBook
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
-        public MainPage ContactsPage { get; set; }
 
-        public ListView ContactListView { get { return listView; } }
-        private ContactDetailPage _contactDetails = new ContactDetailPage();
+        private ObservableCollection<Contact> _ContactList;
+
+
         public MainPage()
         {
-            InitializeComponent();
-            listView.ItemsSource = _contactDetails.GetContact();
+
+        _ContactList = new ObservableCollection<Contact>
+        {
+            new Contact {ContactId = 1, FirstName="Lisha", LastName="Mota", Email="lishamota@hotmail.com", Phone="8298793011"},
+            new Contact {ContactId = 2, FirstName="José", LastName="Félix", Email="jfelix61@outlook.com", Phone="8295615690"},
+            new Contact {ContactId = 3, FirstName="José", LastName="Germán", Email="josegrdom123@gmail.com", Phone="8293498210"}
+        };
+
+        InitializeComponent();
+
+        listView.ItemsSource = _ContactList;
         }
 
-        void OnAddContact(object sender, System.EventArgs e)
+        async void OnAddContact(object sender, System.EventArgs e)
         {
-            Navigation.PushAsync(new ContactDetailPage(0));
+            var page = new ContactDetailPage(new Contact());
+
+            page.ContactAdded += (source, contact) =>
+            {
+                _ContactList.Add(contact);
+            };
+            await Navigation.PushAsync(page);
         }
-            private void ItemIsClicked(object s, SelectedItemChangedEventArgs e) 
+        async void OnContactSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
         {
-            if (e.SelectedItem == null)
+            if (listView.SelectedItem == null)
                 return;
-
-            var contact = e.SelectedItem as Contact;
+            var SelectedContact = e.SelectedItem as Contact;
 
             listView.SelectedItem = null;
 
-            Navigation.PushAsync(new ContactDetailPage(contact.ContactId));
+            var page = new ContactDetailPage(SelectedContact);
+            page.ContactUpdated += (source, contact) =>
+            {
+                SelectedContact.ContactId = contact.ContactId;
+                SelectedContact.FirstName = contact.FirstName;
+                SelectedContact.LastName = contact.LastName;
+                SelectedContact.Email = contact.Email;
+                SelectedContact.Phone = contact.Phone;
+                SelectedContact.IsBlocked = contact.IsBlocked;
+
+
+            };
+            await Navigation.PushAsync(page);
         }
+        
     }
 }

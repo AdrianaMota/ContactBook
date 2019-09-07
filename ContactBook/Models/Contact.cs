@@ -11,6 +11,7 @@ namespace ContactBook.Models
         public string LastName { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
+        public bool IsBlocked { get; set; }
         public string Name { get {
                 return String.Format("{0} {1}", FirstName, LastName);
             } }
