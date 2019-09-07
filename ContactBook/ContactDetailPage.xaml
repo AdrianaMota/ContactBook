@@ -12,7 +12,7 @@
                     <EntryCell x:Name="phone" Keyboard="Telephone" Label="Phone" Text="{Binding Phone}"/>
                 </TableSection>
                 <TableSection Title="OTHER">
-                    <SwitchCell Text="Blocked" On="False"/>
+                    <SwitchCell Text="Blocked" On="{Binding IsBlocked}"/>
                 </TableSection>
             </TableRoot>
         </TableView>
