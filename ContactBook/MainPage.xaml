@@ -8,7 +8,15 @@
         <ListView ItemSelected="OnContactSelected" x:Name="listView">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Name}"/>
+                    <TextCell Text="{Binding Name}">
+                        <TextCell.ContextActions>
+						    <MenuItem 
+							    Text="Delete" 
+							    IsDestructive="true" 
+							    Clicked="OnDeleteContact"
+							    CommandParameter="{Binding .}" />
+				         </TextCell.ContextActions>
+                     </TextCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

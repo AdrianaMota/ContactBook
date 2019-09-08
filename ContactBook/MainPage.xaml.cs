@@ -66,6 +66,13 @@ namespace ContactBook
             };
             await Navigation.PushAsync(page);
         }
-        
+        async void OnDeleteContact(object sender, System.EventArgs e)
+        {
+            var contact = (sender as MenuItem).CommandParameter as Contact;
+            if (await DisplayAlert("WARNING!", $"You are about to delete {contact.Name} as a contact, do you wanna continue?", "Yes", "Nope"))
+                _ContactList.Remove(contact);
+        }
+
+
     }
 }
