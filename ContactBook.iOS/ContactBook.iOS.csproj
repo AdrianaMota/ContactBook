@@ -65,6 +65,7 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Persistance\SQLiteDb.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -129,5 +130,8 @@
       <Project>{DE22D172-88C8-4654-87CF-48B268B0834A}</Project>
       <Name>ContactBook</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Persistance\" />
   </ItemGroup>
 </Project>

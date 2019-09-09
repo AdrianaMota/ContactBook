@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using ContactBook.Models;
+using ContactBook.Persistance;
+using SQLite;
 using Xamarin.Forms;
 
 namespace ContactBook
@@ -10,6 +12,8 @@ namespace ContactBook
     {
         public event EventHandler<Contact> ContactAdded;
         public event EventHandler<Contact> ContactUpdated;
+
+        private SQLiteAsyncConnection _connection;
 
         public ContactDetailPage(Contact contact)
         {
@@ -25,7 +29,10 @@ namespace ContactBook
                 Phone = contact.Phone,
                 IsBlocked = contact.IsBlocked
             };
+
             InitializeComponent();
+
+            _connection = DependencyService.Get<ISQLiteDb>().GetConnection();
 
         }
 
@@ -43,9 +50,12 @@ namespace ContactBook
                 {
                     contact.ContactId = 1;
 
+                await _connection.InsertAsync(contact);
+
                     ContactAdded?.Invoke(this, contact);
              } else
                 {
+                await _connection.UpdateAsync(contact);
                     ContactUpdated?.Invoke(this, contact);
                 }
              await Navigation.PopAsync();

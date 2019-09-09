@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using ContactBook.Models;
+using ContactBook.Persistance;
+using SQLite;
 using Xamarin.Forms;
 
 namespace ContactBook
@@ -17,21 +16,41 @@ namespace ContactBook
     {
 
         private ObservableCollection<Contact> _ContactList;
+        private SQLiteAsyncConnection _connection;
+        private bool _isDataLoaded;
 
 
         public MainPage()
         {
-
-        _ContactList = new ObservableCollection<Contact>
-        {
-            new Contact {ContactId = 1, FirstName="Lisha", LastName="Mota", Email="lishamota@hotmail.com", Phone="8298793011"},
-            new Contact {ContactId = 2, FirstName="José", LastName="Félix", Email="jfelix61@outlook.com", Phone="8295615690"},
-            new Contact {ContactId = 3, FirstName="José", LastName="Germán", Email="josegrdom123@gmail.com", Phone="8293498210"}
-        };
-
+        
         InitializeComponent();
 
         listView.ItemsSource = _ContactList;
+
+         _connection = DependencyService.Get<ISQLiteDb>().GetConnection();
+
+        }
+
+        protected override async void OnAppearing()
+        {
+            if (_isDataLoaded)
+                return;
+
+            _isDataLoaded = true;
+
+            await LoadData();
+
+            base.OnAppearing();
+        }
+
+        private async Task LoadData()
+        {
+            await _connection.CreateTableAsync<Contact>();
+
+            var contacts = await _connection.Table<Contact>().ToListAsync();
+            _ContactList = new ObservableCollection<Contact>(contacts);
+
+            listView.ItemsSource = _ContactList;
         }
 
         async void OnAddContact(object sender, System.EventArgs e)
@@ -71,6 +90,8 @@ namespace ContactBook
             var contact = (sender as MenuItem).CommandParameter as Contact;
             if (await DisplayAlert("WARNING!", $"You are about to delete {contact.Name} as a contact, do you wanna continue?", "Yes", "Nope"))
                 _ContactList.Remove(contact);
+
+            await _connection.DeleteAsync(contact);
         }
 
 
