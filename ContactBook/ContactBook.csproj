@@ -18,6 +18,7 @@
     <Folder Include="Models\" />
     <Folder Include="Persistance\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Android">
@@ -30,5 +31,6 @@
   <ItemGroup>
     <Compile Remove="ContactListView.cs" />
     <Compile Remove="Persistance\MyView.cs" />
+    <Compile Remove="MainPageViewModel.cs" />
   </ItemGroup>
 </Project>

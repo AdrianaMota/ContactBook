@@ -1,11 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="ContactBook.MainPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Clicked="OnAddContact"/>
+        <ToolbarItem Text="Add" Command="{Binding AddContactCommand}" />
     </ContentPage.ToolbarItems>
     <StackLayout>
         
-        <ListView ItemSelected="OnContactSelected" x:Name="listView">
+        <ListView ItemSelected="OnContactSelected"
+                  ItemsSource="{Binding Contacts}"
+                  SelectedItem="{Binding SelectedContact, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Name}">
@@ -13,7 +15,7 @@
 						    <MenuItem 
 							    Text="Delete" 
 							    IsDestructive="true" 
-							    Clicked="OnDeleteContact"
+                                Command="{Binding Source={x:Reference page}, Path=ViewModel.DeleteContactCommand}"
 							    CommandParameter="{Binding .}" />
 				         </TextCell.ContextActions>
                      </TextCell>
